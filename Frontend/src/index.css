@@ -4,5 +4,5 @@
 
 body {
   @apply text-black; /* Or any other Tailwind color utility */
-  /* @apply bg-black */
+  @apply bg-white; /* Or any other Tailwind color utility */
 }
