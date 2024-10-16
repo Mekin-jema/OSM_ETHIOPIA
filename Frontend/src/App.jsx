@@ -1,12 +1,17 @@
-import { useState } from "react";
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home, About, SignIn, SignUp, Dashboard, Project } from "./Pages";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <>
-      <div className=" text-3xl text-slate-700">Blog Project</div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/project" element={<Project />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
