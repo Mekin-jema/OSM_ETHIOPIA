@@ -4,11 +4,13 @@ dotenv.config();
 import { connectDB } from "./database/connectDB.js";
 import userRouter from "./routes/user.routes.js";
 import authRouter from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 //middlewares
 app.use(express.json());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Hello World");
