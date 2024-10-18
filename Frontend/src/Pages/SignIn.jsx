@@ -8,7 +8,7 @@ import { signinStart, signinFail, signinSuccess } from "../Redux/userSlice";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const { users, loading, error } = useSelector((state) => state.users);
+  const { user, loading, error } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
