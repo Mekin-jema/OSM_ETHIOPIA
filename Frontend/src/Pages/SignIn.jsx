@@ -68,7 +68,7 @@ const SignIn = () => {
        "
           >
             <span className=" px-4 py-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white ">
-              Mekin's
+              Mekin
             </span>
             Blog
           </Link>
@@ -120,7 +120,7 @@ const SignIn = () => {
             <OAuth />
           </form>
           <div className="flex gap-2 text-sm mt-5">
-            <span> Don't have an account?</span>
+            <span> Do not have an account?</span>
             <Link to="/sign-up " className="text-blue-700">
               Sign Up
             </Link>
