@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reverse geocoding</title>
+    <link href="https://docs.maptiler.com/styles/base.css" rel="stylesheet" />
+    <script src="https://cdn.maptiler.com/maptiler-sdk-js/v2.5.1/maptiler-sdk.umd.min.js"></script>
+    <link
+      href="https://cdn.maptiler.com/maptiler-sdk-js/v2.5.1/maptiler-sdk.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+      }
+      #results {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 50%;
+        overflow: auto;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--bs-secondary);
+        font-size: 0.7em;
+      }
+      .coordinates {
+        position: relative;
+        top: 5px;
+        left: 5px;
+        z-index: 1000;
+        width: fit-content;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div class="coordinates">
+      <div class="mb-1">
+        <input
+          type="text"
+          class="form-control"
+          id="lat"
+          placeholder="Latitude"
+          aria-label="Latitude"
+        />
+      </div>
+      <div class="mb-1">
+        <input
+          type="text"
+          class="form-control"
+          id="lng"
+          placeholder="Longitude"
+          aria-label="Longitude"
+        />
+      </div>
+      <div>
+        <button type="button" id="btn-search-reverse" class="btn btn-primary">
+          Search
+        </button>
+      </div>
+    </div>
+    <pre id="results"></pre>
+    <script>
+      maptilersdk.config.apiKey = "u9EnL0tM9ZS24uoyFpL7";
+
+      const map = new maptilersdk.Map({
+        container: "map", // container's id or the HTML element to render the map
+        style: maptilersdk.MapStyle.STREETS.LIGHT,
+        geolocate: maptilersdk.GeolocationType.POINT,
+      });
+
+      map.on("click", async (e) => {
+        const { lng, lat } = e.lngLat;
+        document.getElementById("lat").value = lat;
+        document.getElementById("lng").value = lng;
+        reverseGeocoding(lng, lat);
+      });
+
+      map.on("load", function () {
+        const { lng, lat } = map.getCenter();
+        document.getElementById("lat").value = lat;
+        document.getElementById("lng").value = lng;
+        reverseGeocoding(lng, lat);
+      });
+
+      document
+        .getElementById("btn-search-reverse")
+        .addEventListener("click", function () {
+          const lng = parseFloat(document.getElementById("lng").value);
+          const lat = parseFloat(document.getElementById("lat").value);
+          reverseGeocoding(lng, lat);
+        });
+
+      let marker;
+
+      async function reverseGeocoding(lng, lat) {
+        if (!lng || !lat || lng === "" || lat === "") {
+          document.getElementById("results").innerHTML = "";
+        } else {
+          const result = await maptilersdk.geocoding.reverse([lng, lat]);
+          document.getElementById("results").innerHTML = JSON.stringify(
+            result,
+            null,
+            2
+          );
+          if (marker) {
+            marker.setLngLat([lng, lat]);
+          } else {
+            marker = new maptilersdk.Marker().setLngLat([lng, lat]).addTo(map);
+          }
+          map.flyTo({
+            center: [lng, lat],
+            padding: { right: window.innerWidth / 2 },
+            essential: true, // this animation is considered essential with respect to prefers-reduced-motion
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

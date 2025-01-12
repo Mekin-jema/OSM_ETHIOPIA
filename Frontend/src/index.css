@@ -1,8 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .all-unset {
+    all: unset;
+  }
+}
+
 body {
-  @apply text-black; /* Or any other Tailwind color utility */
-  @apply bg-white; /* Or any other Tailwind color utility */
+  @apply text-black bg-white;
+  font-family: "Poppins", sans-serif;
 }

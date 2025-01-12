@@ -10,7 +10,10 @@ import {
 } from "react-icons/bs";
 const FooterCom = () => {
   return (
-    <Footer container className=" border border-t-8 border-teal-500 text-white">
+    <Footer
+      container
+      className=" border-t border-gray-600  dark:border-white text-white dark:bg-transparent"
+    >
       <div className="w-full max-w-7xl mx-auto">
         <div className=" grid w-full justify-between sm:flex md:grid-cols-1">
           <div className=" mt-5">
@@ -19,10 +22,7 @@ const FooterCom = () => {
               className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white 
        "
             >
-              <span className=" px- py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white">
-                Mekin's{" "}
-              </span>
-              Blog
+              <span className="text-gray-400">Osm Ethipia</span>
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6">
@@ -41,7 +41,7 @@ const FooterCom = () => {
                   target="_blank"
                   rel="noopener noreferrer" // for security
                 >
-                  Mekin's Blog
+                  OSM Ethiopia
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
@@ -85,19 +85,40 @@ const FooterCom = () => {
             </div>
           </div>
         </div>
-        <Footer.Divider />
+        <Footer.Divider className="dark:border-white" />
         <div className=" w-full sm:flex sm:items-center sm:justify-between">
           <Footer.Copyright
             href="#"
-            by="Mekin's Blog"
+            by="OSM Ethiopia"
+            className=" dark:text-white"
             year={new Date().getFullYear()}
           />
           <div className=" flex gap-6 sm:mt-0 mt-4  sm:items-center sm:justify-between">
-            <Footer.Icon href="#" icon={BsFacebook} />
-            <Footer.Icon href="#" icon={BsInstagram} />
-            <Footer.Icon href="#" icon={BsGithub} />
-            <Footer.Icon href="#" icon={BsTelegram} />
-            <Footer.Icon href="#" icon={BsTwitter} />
+            <Footer.Icon
+              href="#"
+              icon={BsFacebook}
+              className=" dark:text-white"
+            />
+            <Footer.Icon
+              href="#"
+              icon={BsInstagram}
+              className=" dark:text-white"
+            />
+            <Footer.Icon
+              href="#"
+              icon={BsGithub}
+              className=" dark:text-white"
+            />
+            <Footer.Icon
+              href="#"
+              icon={BsTelegram}
+              className=" dark:text-white"
+            />
+            <Footer.Icon
+              href="#"
+              icon={BsTwitter}
+              className=" dark:text-white"
+            />
           </div>
         </div>
       </div>

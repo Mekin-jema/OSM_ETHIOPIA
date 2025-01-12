@@ -1,5 +1,5 @@
 import { Button } from "flowbite-react";
-import { AiFillGoogleCircle } from "react-icons/ai";
+import { AiFillGoogleCircle, AiFillFacebook } from "react-icons/ai";
 import { app } from "../Firebase";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -34,14 +34,30 @@ const OAuth = () => {
     }
   };
   return (
-    <Button
-      type="button"
-      gradientDuoTone="pinkToOrange"
-      outline
-      onClick={handleGoogleClick}
-    >
-      <AiFillGoogleCircle className=" w-6 h-6 mr-2 " />
-    </Button>
+    <div className="flex flex-col gap-1">
+      <Button
+        type="button"
+        className="text-white bg-gradient-to-r from-green-700
+         via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+          focus:ring-green-300"
+        outline
+        onClick={handleGoogleClick}
+      >
+        <AiFillGoogleCircle className=" w-6 h-6 mr-2 " />
+        <span>Contine with Google</span>
+      </Button>
+      <Button
+        type="button"
+        className="text-white bg-gradient-to-r from-green-400
+         via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none
+          focus:ring-green-300"
+        outline
+        onClick={handleGoogleClick}
+      >
+        <AiFillFacebook className=" w-6 h-6 mr-2 rounded-full" />
+        <span>Contine with facbook</span>
+      </Button>
+    </div>
   );
 };
 
