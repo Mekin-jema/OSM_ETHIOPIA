@@ -7,8 +7,10 @@ import Map from "../Pages/Map";
 import Billing from "../Pages/Billing";
 import { Premium } from "../Pages/Premium";
 import Routing from "../Pages/Routing";
-import MapComponent from "../Pages/Routing";
+// import MapComponent from "../Pages/Routing";
 import MapWithGeocoder from "../Pages/Geocoding";
+import MapComponent from "../Pages/OSRM";
+import Demo from "../Pages/Demo";
 
 export const Dashboard = () => {
   const [active, setActive] = useState(0);
@@ -28,8 +30,8 @@ export const Dashboard = () => {
         />
       </div>
       <div className={`flex-1 h-[953px] w-[98%] m-0 `}>
-        {active === 0 && <Board />}
-        {active === 1 && <MapWithGeocoder />}
+        {/* {active === 0 && <Demo />} */}
+        {active === 1 && <MapComponent />}
 
         {active === 2 && <ApiClient />}
         {active === 3 && <AccountSettings />}

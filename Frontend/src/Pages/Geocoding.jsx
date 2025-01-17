@@ -3,12 +3,19 @@ import maplibregl from "maplibre-gl";
 import "@maplibre/maplibre-gl-geocoder/dist/maplibre-gl-geocoder.css";
 import MaplibreGeocoder from "@maplibre/maplibre-gl-geocoder";
 import "maplibre-gl/dist/maplibre-gl.css";
-
+// Autocomplete Search Box for MapLibre GL JS
+import { MapLibreSearchControl } from "@stadiamaps/maplibre-search-box";
+import "@stadiamaps/maplibre-search-box/dist/style.css";
+// map directions
+import MapLibreGlDirections, {
+  LoadingIndicatorControl,
+} from "@maplibre/maplibre-gl-directions";
 const MapWithGeocoder = () => {
   const mapContainerRef = useRef(null);
   const [map, setMap] = useState(null);
   const [startPoint, setStartPoint] = useState(null);
   const [endPoint, setEndPoint] = useState(null);
+  const [transportMode, setTransportMode] = useState("auto");
 
   useEffect(() => {
     // Initialize the map
@@ -20,6 +27,44 @@ const MapWithGeocoder = () => {
       zoom: 13,
     });
     setMap(mapInstance);
+
+    const control = new MapLibreSearchControl({
+      onResultSelected: (feature) => {
+        // You can add code here to take some action when a result is selected.
+        console.log(feature.geometry.coordinates);
+      },
+      // You can also use our EU endpoint to keep traffic within the EU using the basePath option:
+      // baseUrl: "https://api-eu.stadiamaps.com",
+    });
+    mapInstance.addControl(control, "top-left");
+    // Import the plugin
+
+    // Make sure to create a MapLibreGlDirections instance only after the map is loaded
+    mapInstance.on("load", () => {
+      // Create an instance of the default class
+      const directions = new MapLibreGlDirections(mapInstance);
+
+      // Enable interactivity (if needed)
+      directions.interactive = true;
+
+      // Optionally add the standard loading-indicator control
+      map.addControl(new LoadingIndicatorControl(directions));
+
+      // Set the waypoints programmatically
+      directions.setWaypoints([
+        [-73.8271025, 40.8032906],
+        [-73.8671258, 40.82234996],
+      ]);
+
+      // Remove waypoints
+      directions.removeWaypoint(0);
+
+      // Add waypoints
+      directions.addWaypoint([-73.8671258, 40.82234996], 0);
+
+      // Remove everything plugin-related from the map
+      directions.clear();
+    });
 
     // Custom geocoder API
     const geocoderApi = {
@@ -90,25 +135,45 @@ const MapWithGeocoder = () => {
           { lat: startPoint[1], lon: startPoint[0] },
           { lat: endPoint[1], lon: endPoint[0] },
         ],
-        costing: "auto",
+        costing: transportMode,
         directions_options: { units: "kilometers" },
       };
+      // Optionally, define mode-specific options if necessary
+      if (transportMode === "truck") {
+        routeRequest.costing_options = {
+          truck: {
+            height: 4.0,
+            weight: 20.0,
+            width: 2.5,
+          },
+        };
+      } else if (transportMode === "bicycle") {
+        routeRequest.costing_options = {
+          bicycle: {
+            use_roads: 0.2,
+            use_hills: 0.3,
+          },
+        };
+      }
 
       fetch("https://valhalla1.openstreetmap.de/route", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify(routeRequest),
       })
         .then((response) => response.json())
         .then((data) => {
           if (data && data.trip && data.trip.legs.length > 0) {
             const routeGeometry = data.trip.legs[0].shape;
-            console.log(data);
+            console.log(routeGeometry);
+            // console.log(data);
             const coordinates = decodePolyline(routeGeometry);
+            console.log(coordinates);
             // Extract distance and time from the response (in kilometers and seconds)
-            const distanceInKm = data.trip.legs[0].summary.length / 1000; // Convert meters to kilometers
+            const distanceInKm = data.trip.legs[0].summary.length; // Convert meters to kilometers
             console.log(distanceInKm);
             const timeInMinutes = data.trip.legs[0].summary.time / 3600; // Convert seconds to minutes
 
@@ -142,7 +207,7 @@ const MapWithGeocoder = () => {
               // Set a timeout to remove the notification after 5 seconds
               setTimeout(() => {
                 labelElement.style.display = "none"; // Hide the notification
-              }, 5000); // Set to 5000 milliseconds (5 seconds)
+              }, 10000); // Set to 5000 milliseconds (5 seconds)
             }
 
             // Example usage: Show the notification after 3 seconds (you can trigger this based on some event)
@@ -222,7 +287,7 @@ const MapWithGeocoder = () => {
         })
         .catch((error) => console.error("Routing error:", error));
     }
-  }, [map, startPoint, endPoint]);
+  }, [map, startPoint, endPoint, transportMode]);
 
   // Polyline decoder for Valhalla
   function decodePolyline(encoded) {
@@ -258,7 +323,22 @@ const MapWithGeocoder = () => {
   }
 
   return (
-    <div ref={mapContainerRef} style={{ width: "100%", height: "100vh" }} />
+    <div style={{ position: "relative", width: "100%", height: "100vh" }}>
+      <div style={{ position: "absolute", zIndex: 1, top: 10, right: 10 }}>
+        <select
+          value={transportMode}
+          onChange={(e) => setTransportMode(e.target.value)}
+        >
+          <option value="auto">Car</option>
+          <option value="truck">Truck</option>
+          <option value="bicycle">Bicycle</option>
+          <option value="bus">Bus</option>
+          <option value="pedestrian">Pedestrian</option>
+          <option value="motorcycle">MotorCycle</option>
+        </select>
+      </div>
+      <div ref={mapContainerRef} style={{ width: "100%", height: "100%" }} />
+    </div>
   );
 };
 

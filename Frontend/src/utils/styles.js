@@ -1,4 +1,4 @@
-const PMTILES_URL = "/map.pmtiles"; // Direct reference
+// const PMTILES_URL = "/map.pmtiles"; // Direct reference
 
 export const styles = {
   version: 8,
@@ -7,7 +7,7 @@ export const styles = {
   sources: {
     local_pmtiles: {
       type: "vector",
-      url: `pmtiles://${PMTILES_URL}`, // PMTiles protocol URL
+      url: `pmtiles://map.pmtiles`, // PMTiles protocol URL
     },
   },
   layers: [

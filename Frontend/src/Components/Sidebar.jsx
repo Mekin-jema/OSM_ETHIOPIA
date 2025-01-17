@@ -6,6 +6,7 @@ import map from "../assets/Sidebar/map.svg";
 import sidebar from "../assets/Sidebar/Sidebar.svg";
 import sliders from "../assets/Sidebar/sliders.svg";
 import unlock from "../assets/Sidebar/unlock.svg";
+import logo from "../assets/logo3.png";
 
 // Sidebar item component
 const SidebarItem = ({ icon, label, isActive, onClick }) => (
@@ -34,14 +35,14 @@ const Sidebar = ({ active, setActive, open, setOpen }) => {
     <div className="flex h-full w-full  ">
       {open ? (
         <div className=" bg-[#00432F] rounded-2xl flex flex-col justify-between w-full">
-          <div className="flex flex-col items-center gap-10 pt-[15px] px-[25px]">
-            <div className="flex items-center justify-between gap-4 w-full px-[75px] ">
+          <div className="flex flex-col items-center gap-10 pt-[15px] px-[25px] w-full">
+            <div className="flex items-center justify-between gap-2 w-full px-[55px] ">
               <img
-                className="w-[100px] h-[89.5px] object-cover"
-                src={amba1}
+                className="w-[200px] h-[150.5px] object-cover text-white "
+                src={logo}
                 alt="Amba"
               />
-              <div>
+              <div className="w-[20px]">
                 {open ? (
                   <i
                     className="pi pi-chevron-left cursor-pointer text-white "
@@ -85,7 +86,7 @@ const Sidebar = ({ active, setActive, open, setOpen }) => {
         <div className=" bg-[#00432F] rounded-2xl flex flex-col justify-between ml-0 h-full w-full">
           <div className="flex flex-col items-center gap-10 mt-[15px] ml-[16px] mr-[17px] px-[10.5px]">
             <div className="flex items-center justify-between   ">
-              <img className="w-[80px] h-[71.6px] " src={amba1} alt="Amba" />
+              <img className="w-[80px] h-[71.6px] " src={logo} alt="Amba" />
               <div>
                 {open ? (
                   <i

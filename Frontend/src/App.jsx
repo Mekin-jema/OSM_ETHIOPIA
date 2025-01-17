@@ -9,12 +9,13 @@ import Success from "./Pages/Success";
 import Public from "./Components/Public";
 import Protected from "./Components/Protected";
 import useAuth from "./hooks/useAuth";
+import "./App.scss";
 
 function App() {
   const isLoggin = useAuth();
   return !isLoggin ? (
     <BrowserRouter>
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -27,7 +28,7 @@ function App() {
         <Route path="/protected" element={<Protected />} />
         {/* <Route path="/new-map" element={<NewMap />} /> */}
       </Routes>
-      <FooterCom />
+      {/* <FooterCom /> */}
     </BrowserRouter>
   ) : (
     <BrowserRouter>
